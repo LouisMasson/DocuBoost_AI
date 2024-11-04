@@ -28,7 +28,7 @@ async def scrape_to_markdown(url):
 
 # Interface Streamlit
 def main():
-    st.title("Markdown Scraper Pro")
+    st.title("DocuBoost AI")
     st.write("Entrez une URL pour scraper le contenu du site et le télécharger au format Markdown.")
 
     # Champs de saisie pour l'URL et le nom du fichier

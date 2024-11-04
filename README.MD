@@ -1,3 +1,5 @@
+# MarkdownMagnet
+
 # Application de Scraping de Documentation Technique
 
 Cette application Streamlit permet de scraper des sites web de documentation technique et de télécharger le contenu au format Markdown. L'objectif est de fournir du contexte aux outils d'IA de codage comme Cursor AI ou Bolt.new.
@@ -19,7 +21,7 @@ Cette application Streamlit permet de scraper des sites web de documentation tec
 
 1. Clonez ce dépôt :
     ```bash
-    git clone https://github.com/votre-utilisateur/votre-repo.git
+    git clone https://github.com/LouisMasson/DocuBoost_AI
     cd votre-repo
     ```
 
