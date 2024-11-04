@@ -1,4 +1,4 @@
-# MarkdownMagnet
+# DocuBoost AI
 
 # Application de Scraping de Documentation Technique
 
