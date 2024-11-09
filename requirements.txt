@@ -1,5 +1,5 @@
 streamlit==1.31.0
-crawl4ai==0.1.0
+crawl4ai==0.3.73  # Utilisez la dernière version stable
 aiohttp==3.9.1
 python-dotenv==1.0.0
 urllib3==2.1.0
