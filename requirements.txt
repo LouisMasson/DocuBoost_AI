@@ -4,3 +4,6 @@ aiohttp==3.9.1
 python-dotenv==1.0.0
 urllib3==2.1.0
 nest_asyncio==1.5.8
+setuptools>=65.0.0
+playwright
+playwright-stealth
