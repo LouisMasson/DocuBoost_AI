@@ -6,6 +6,9 @@ from urllib.parse import urlparse
 import nest_asyncio
 import threading
 
+# Affiche le logo en haut de l'application
+st.image("Docuboost AI.png", use_column_width=True)
+
 # Configuration initiale de Playwright
 def setup_playwright():
     try:
