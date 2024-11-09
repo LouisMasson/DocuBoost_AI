@@ -6,9 +6,19 @@ from urllib.parse import urlparse
 import nest_asyncio
 import threading
 
-# Installation de Playwright si nécessaire
+# Configuration initiale de Playwright
+def setup_playwright():
+    try:
+        os.system("playwright install")
+        os.system("playwright install-deps")
+        return True
+    except Exception as e:
+        st.error(f"Erreur lors de l'installation de Playwright: {e}")
+        return False
+
+# Configuration initiale
 if not os.path.exists("/home/adminuser/.cache/ms-playwright"):
-    os.system("playwright install")
+    setup_playwright()
 
 # Applique nest_asyncio pour permettre l'imbrication des boucles événementielles
 nest_asyncio.apply()
@@ -33,12 +43,13 @@ async def scrape_to_markdown(url):
         st.error("Erreur de connexion. Vérifiez votre connexion Internet et réessayez.")
         return None
     except Exception as e:
-        st.error(f"Une erreur est survenue : {e}")
+        st.error(f"Une erreur est survenue : {str(e)}")
+        if "missing dependencies" in str(e).lower():
+            st.error("Erreur de dépendances Playwright. Veuillez contacter l'administrateur.")
         return None
 
 def run_async(coroutine):
     try:
-        # Crée une nouvelle boucle d'événements dans le thread actuel
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         return loop.run_until_complete(coroutine)
@@ -65,12 +76,12 @@ def main():
             # Exécute le scraping dans un nouveau thread avec sa propre boucle d'événements
             markdown_content = run_async(scrape_to_markdown(url))
 
-            # Vérifie si le scraping a réussi avant d'afficher le bouton de succès et de téléchargement
+            # Vérifie si le scraping a réussi
             if markdown_content:
                 st.success(f"Le contenu scrappé est prêt à être téléchargé sous le nom : {filename}")
 
-                # Prévisualisation du contenu Markdown (échantillon)
-                preview_length = 2000  # Limite de caractères pour la prévisualisation
+                # Prévisualisation du contenu Markdown
+                preview_length = 2000
                 st.subheader("Aperçu du contenu scrappé :")
                 st.code(markdown_content[:preview_length] + ("..." if len(markdown_content) > preview_length else ""), language="markdown")
         else:
