@@ -1,9 +1,14 @@
+import os
 import asyncio
 import streamlit as st
 from crawl4ai import AsyncWebCrawler
 from urllib.parse import urlparse
 import nest_asyncio
 import threading
+
+# Installation de Playwright si nécessaire
+if not os.path.exists("/home/adminuser/.cache/ms-playwright"):
+    os.system("playwright install")
 
 # Applique nest_asyncio pour permettre l'imbrication des boucles événementielles
 nest_asyncio.apply()
