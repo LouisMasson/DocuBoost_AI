@@ -16,6 +16,8 @@ Cette application Streamlit permet de scraper des sites web de documentation tec
 - Python 3.7 ou supérieur
 - `streamlit`
 - `crawl4ai`
+- `playwright`
+- `nest_asyncio`
 
 ## Installation
 
@@ -28,6 +30,11 @@ Cette application Streamlit permet de scraper des sites web de documentation tec
 2. Installez les dépendances :
     ```bash
     pip install -r requirements.txt
+    ```
+
+3. Installez les dépendances système nécessaires pour Playwright :
+    ```bash
+    sudo apt-get install -y libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2 libpango-1.0-0 libcairo2 libatspi2.0-0 libgtk-3-0 libgdk-pixbuf2.0-0 libxcursor1 libxext6 libpangocairo-1.0-0 libwayland-client0
     ```
 
 ## Utilisation
@@ -44,6 +51,16 @@ Cette application Streamlit permet de scraper des sites web de documentation tec
 4. Cliquez sur le bouton "Scraper et Enregistrer".
 
 5. Une fois le scraping terminé, vous pouvez prévisualiser le contenu scrappé et le télécharger en cliquant sur le bouton "Télécharger le fichier Markdown".
+
+## Fonctionnement de l'application
+
+L'application utilise `AsyncWebCrawler` pour scraper le contenu des sites web. Voici un aperçu des principales fonctions :
+
+- `is_valid_url(url: str) -> bool`: Vérifie si une URL est valide.
+- `async def scrape_to_markdown(url)`: Scrape le contenu d'une URL et le convertit en Markdown.
+- `def run_async(coroutine)`: Exécute une coroutine asynchrone dans une boucle d'événements.
+
+L'interface utilisateur est construite avec Streamlit, permettant aux utilisateurs d'entrer une URL et de télécharger le contenu scrappé en Markdown.
 
 ## Contribuer
 
