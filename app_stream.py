@@ -2,6 +2,11 @@ import asyncio
 import streamlit as st
 from crawl4ai import AsyncWebCrawler
 from urllib.parse import urlparse
+import nest_asyncio
+import threading
+
+# Applique nest_asyncio pour permettre l'imbrication des boucles événementielles
+nest_asyncio.apply()
 
 def is_valid_url(url: str) -> bool:
     try:
@@ -26,6 +31,15 @@ async def scrape_to_markdown(url):
         st.error(f"Une erreur est survenue : {e}")
         return None
 
+def run_async(coroutine):
+    try:
+        # Crée une nouvelle boucle d'événements dans le thread actuel
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        return loop.run_until_complete(coroutine)
+    finally:
+        loop.close()
+
 # Interface Streamlit
 def main():
     st.title("DocuBoost AI")
@@ -43,10 +57,8 @@ def main():
             filename = filename_input + ".md"
             st.write("Scraping en cours...")
 
-            # Exécution du scraping dans une boucle asynchrone
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            markdown_content = loop.run_until_complete(scrape_to_markdown(url))
+            # Exécute le scraping dans un nouveau thread avec sa propre boucle d'événements
+            markdown_content = run_async(scrape_to_markdown(url))
 
             # Vérifie si le scraping a réussi avant d'afficher le bouton de succès et de téléchargement
             if markdown_content:
@@ -56,8 +68,6 @@ def main():
                 preview_length = 2000  # Limite de caractères pour la prévisualisation
                 st.subheader("Aperçu du contenu scrappé :")
                 st.code(markdown_content[:preview_length] + ("..." if len(markdown_content) > preview_length else ""), language="markdown")
-            else:
-                st.error("Le scraping a échoué. Vérifiez les erreurs ci-dessus.")
         else:
             st.warning("Veuillez entrer une URL et un nom de fichier.")
 
